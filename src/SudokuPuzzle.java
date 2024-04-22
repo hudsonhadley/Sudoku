@@ -46,4 +46,12 @@ public class SudokuPuzzle {
         // TODO: Complete method
         return false;
     }
+
+    /**
+     * @return if the puzzle has been solved
+     */
+    public boolean isSolved() {
+        // TODO: Complete method
+        return false;
+    }
 }
