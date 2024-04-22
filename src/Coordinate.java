@@ -1,7 +1,7 @@
 /**
  * A basic coordinate class for easing the access of elements of a 2D List.
- * @author Hudson Hadley
  * @author Nathan Moore
+ * @author Hudson Hadley
  */
 public class Coordinate {
     /**

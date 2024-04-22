@@ -2,6 +2,8 @@
  * This class represents a sudoku puzzle. Each puzzle has a corresponding solution. In other words, each class has
  * what the user is given, and what the correct answer is. When a user guesses, their attempt is then measured
  * against the solution (which should have only one solution).
+ * @author Nathan Moore
+ * @author Hudson Hadley
  */
 public class SudokuPuzzle {
     /**
