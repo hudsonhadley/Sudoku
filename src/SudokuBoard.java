@@ -97,12 +97,11 @@ public class SudokuBoard {
     }
 
     /**
-     * @return the amount of solutions that exist for the current board (i.e., the number of filled, valid boards
-     * that can be made by filling in empty spaces on the current board)
+     * Tries to solve the board using a backtracking algorithm.
+     * @return the solved board (if possible). Null if the board cannot be solved
      */
-    private int solutionCount() {
-        // TODO: Complete method
-        return -1;
+    private SudokuBoard solved() {
+        return null;
     }
 
     /**
