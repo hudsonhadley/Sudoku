@@ -217,6 +217,20 @@ public class SudokuBoard {
     }
 
     /**
+     * Flips a board clockwise by 90 degrees.
+     */
+    private void flip() {
+
+    }
+
+    /**
+     * Mirrors a board along the vertical line such that the left and the right mirror each other.
+     */
+    private void mirror() {
+
+    }
+
+    /**
      * @return a String representation of the board with columns separated by spaces and rows by newlines
      */
     @Override
