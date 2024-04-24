@@ -26,11 +26,13 @@ public class SudokuPuzzle {
     }
 
     /**
-     * Constructs a sudoku puzzle from a given solution.
+     * Constructs a sudoku puzzle from a given solution and puzzle.
+     * @param puzzle the unfilled valid board
      * @param solution the filled, valid board to make a puzzle from
-     * @throws IllegalArgumentException if the solution is invalid or not filled completely
+     * @throws IllegalArgumentException if the solution is invalid or not filled completely, or if the puzzle and
+     * solution do not match
      */
-    public SudokuPuzzle(SudokuBoard solution) throws IllegalArgumentException {
+    public SudokuPuzzle(SudokuBoard puzzle, SudokuBoard solution) throws IllegalArgumentException {
         // TODO: Complete method
     }
 
