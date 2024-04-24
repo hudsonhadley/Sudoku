@@ -224,7 +224,7 @@ public class SudokuBoard {
     }
 
     /**
-     * Mirrors a board along the vertical line such that the left and the right mirror each other.
+     * Mirrors a board along the horizontal line such that the top and the bottom mirror each other.
      */
     private void mirror() {
 
