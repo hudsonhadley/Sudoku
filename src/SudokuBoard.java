@@ -76,6 +76,13 @@ public class SudokuBoard {
     }
 
     /**
+     * Clears the current board, setting each cell to be 0.
+     */
+    private void clearBoard() {
+        // TODO: Complete method
+    }
+
+    /**
      * Generates a filled, valid sudoku board. This algorithm works by
      * going row by row in order, but randomizing the order in which it fills specific rows while
      * utilizing backtracking. This randomizing occurs to make each call of generateBoard()
