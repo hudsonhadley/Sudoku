@@ -18,9 +18,11 @@ public class CommandLineUI {
 
         while (game) {
             System.out.println(board.toString());
-            System.out.print("Guess: ");
+            System.out.print("Row Guess: ");
             int rowGuess = scan.nextInt();
+            System.out.print("Column Guess: ");
             int colGuess = scan.nextInt();
+            System.out.print("Number Guess: ");
             int numGuess = scan.nextInt();
 
             Coordinate playerGuess = new Coordinate(rowGuess, colGuess);

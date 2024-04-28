@@ -65,6 +65,16 @@ public class SudokuPuzzle {
     @Override
     public String toString() {
         // TODO: Complete method
-        return "";
+        StringBuilder boardString = new StringBuilder();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                for (int k = 0; k < 3; k++) {
+                    boardString.append(puzzle.getCell(i, j));
+                }
+                boardString.append("|");
+            }
+            boardString.append("-----------");
+        }
+        return boardString.toString();
     }
 }
