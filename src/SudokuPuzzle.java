@@ -35,7 +35,6 @@ public class SudokuPuzzle {
      * solution do not match
      */
     public SudokuPuzzle(SudokuBoard puzzle, SudokuBoard solution) throws IllegalArgumentException {
-        // TODO: Complete method
         this.puzzle = new SudokuBoard(puzzle);
         this.solution = new SudokuBoard(solution);
     }
@@ -59,7 +58,6 @@ public class SudokuPuzzle {
      * @return if the puzzle has been solved
      */
     public boolean isSolved() {
-        // TODO: Complete method
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (!(puzzle.getCell(i, j) == solution.getCell(i, j))) {
@@ -75,7 +73,6 @@ public class SudokuPuzzle {
      */
     @Override
     public String toString() {
-        // TODO: Complete method
         return puzzle.toString();
     }
 }

@@ -164,7 +164,6 @@ public class SudokuBoard {
      * produce a seemingly random board.
      */
     public void generateBoard() {
-        // TODO: Complete method
         clearBoard();
 
         Deque<Coordinate> unfilledCells = new ArrayDeque<>();
@@ -248,24 +247,37 @@ public class SudokuBoard {
      * @return an ArrayList of Coordinates representing the locations of contradictions in the puzzle
      */
     public ArrayList<Coordinate> getContradictions() {
-        // TODO: Complete method
-        return null;
+        ArrayList<Coordinate> contradictions = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (!isValidCell(i, j))
+                    contradictions.add(new Coordinate(i, j));
+            }
+        }
+        return contradictions;
     }
 
     /**
      * @return if the puzzle does not have any contradictions
      */
     public boolean isValid() {
-        // TODO: Complete method
-        return false;
+        // If we find no contradictions, the board must be valid
+        return getContradictions().isEmpty();
     }
 
     /**
      * @return if the puzzle has no empty (0) cells
      */
     public boolean isFull() {
-        // TODO: Complete method
-        return false;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                // If we find a zero, the board is not full
+                if (getCell(i, j) == 0)
+                    return false;
+            }
+        }
+        // If we find no zeros, the board must be full
+        return true;
     }
 
     /**
