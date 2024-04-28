@@ -56,7 +56,14 @@ public class SudokuPuzzle {
      */
     public boolean isSolved() {
         // TODO: Complete method
-        return false;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (!(puzzle.getCell(i, j) == solution.getCell(i, j))) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
