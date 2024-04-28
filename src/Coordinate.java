@@ -19,23 +19,22 @@ public class Coordinate {
      * @param col the column of the coordinate we want to initialize
      */
     public Coordinate(int row, int col) {
-        // TODO: Complete method
+        this.row = row;
+        this.col = col;
     }
 
     /**
      * @return the row of the coordinate
      */
     public int getRow() {
-        // TODO: Complete method
-        return -1;
+        return row;
     }
 
     /**
      * @return the column of the coordinate
      */
     public int getCol() {
-        // TODO: Complete method
-        return -1;
+        return col;
     }
 
     /**
@@ -43,7 +42,6 @@ public class Coordinate {
      */
     @Override
     public String toString() {
-        // TODO: Complete method
-        return "";
+        return "(" + row + ", " + col + ")";
     }
 }

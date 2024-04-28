@@ -34,6 +34,14 @@ public class SudokuBoard {
     }
 
     /**
+     * Copies a SudokuBoard making a deep copy.
+     * @param other another SudokuBoard we want to copy
+     */
+    public SudokuBoard(SudokuBoard other) {
+        // TODO: Complete method
+    }
+
+    /**
      * @param row the row of the cell number we want
      * @param col the column of the cell number we want
      * @return the cell number at the row and column in the board
@@ -93,9 +101,9 @@ public class SudokuBoard {
     }
 
     /**
-     * Generates a partially filled sudoku board from a fully filled board. This algorithm works in conjunction
-     * with the solutionCount() method to ensure that there is only one solution for the puzzle generated. Note
-     * that if the board is not filled, an entirely new board will be created and a puzzle will be generated from it.
+     * Generates a partially filled sudoku board from a fully filled board. This algorithm ensures that there is only
+     * one solution for the puzzle generated. Note that if the board is not filled, an entirely new board will be
+     * created and a puzzle will be generated from it.
      * @return a sudoku puzzle with one solution
      */
     public SudokuBoard generatePuzzle() {
