@@ -383,20 +383,27 @@ public class SudokuBoard {
     @Override
     public String toString() {
         StringBuilder boardString = new StringBuilder();
+
+        // For every row
         for (int i = 0; i < 9; i++) {
+            // We need 3 iterations of numbers 0 0 0 | 0 0 0 | 0 0 0
             for (int j = 0; j < 3; j++) {
+                // For every 3 numbers
                 for (int k = 0; k < 3; k++) {
-                    boardString.append(getCell(i, j * 3 + k));
+                    boardString.append(getCell(i, j * 3 + k)); // Append the next number and a space
                     boardString.append(" ");
                 }
+                // If it is not the last set, we want a separator
                 if (j != 2)
                     boardString.append("| ");
-                else
+                else // If it is the last set, we want a newline
                     boardString.append("\n");
             }
+            // If it is row index 2 or 5, we want a separator
             if (i == 2 || i == 5)
                 boardString.append("---------------------\n");
         }
+
         return boardString.toString();
     }
 }
