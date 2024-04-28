@@ -123,8 +123,7 @@ public class SudokuBoard {
      * @throws IndexOutOfBoundsException if the coordinate is out of bounds
      */
     public int getCell(Coordinate coord) {
-        // TODO: Complete method
-        return -1;
+        return getCell(coord.getRow(), coord.getCol());
     }
 
     /**
@@ -135,7 +134,7 @@ public class SudokuBoard {
      * @throws IllegalArgumentException if cell is not 0-9
      */
     public void setCell(int row, int col, int cell) {
-        // TODO: Complete method
+        cells.get(row).set(col, cell);
     }
 
     /**
@@ -145,7 +144,7 @@ public class SudokuBoard {
      * @throws IllegalArgumentException if cell is not 0-9
      */
     public void setCell(Coordinate coord, int cell) {
-        // TODO: Complete method
+        setCell(coord.getRow(), coord.getCol(), cell);
     }
 
     /**
