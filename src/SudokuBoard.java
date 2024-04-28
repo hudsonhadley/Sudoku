@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * This class represents a Sudoku board (solved or unsolved, valid or invalid). This class includes all the
@@ -167,6 +165,35 @@ public class SudokuBoard {
      */
     public void generateBoard() {
         // TODO: Complete method
+        clearBoard();
+
+        Deque<Coordinate> unfilledCells = new ArrayDeque<>();
+        Deque<Coordinate> filledCells = new ArrayDeque<>();
+
+        // Push a random ordering of coordinates to the unfilled cells
+        for (int row = 0; row < 9; row++) {
+            int[] randomCols = getRandomNumbers(9);
+
+            for (int i = 0; i < 9; i++)
+                unfilledCells.push(new Coordinate(row, randomCols[i]));
+        }
+
+        // Fill the puzzle in the predefined order until there are no unfilled cells
+        while (!unfilledCells.isEmpty()) {
+            // Set the cell at the top of the stack to be one more than it is (if it is empty it will now be 1)
+            setCell(unfilledCells.peek(), getCell(unfilledCells.peek()) + 1);
+
+            // If it is a valid cell, push it to the filled cells, removing it from the unfilled cells
+            if (isValidCell(unfilledCells.peek())) {
+                filledCells.push(unfilledCells.pop());
+            } else { // If it is not valid
+                // Keep backtracking until we find a cell that isn't 9
+                while (getCell(unfilledCells.peek()) == 9) {
+                    setCell(unfilledCells.peek(), 0);
+                    unfilledCells.push(filledCells.pop());
+                }
+            }
+        }
     }
 
     /**
@@ -192,10 +219,27 @@ public class SudokuBoard {
      * Generates an int array that is a certain length with numbers 0 - (n - 1) randomly placed throughout
      * @param n the amount of random numbers we want
      * @return an int array that is n long with randomly placed numbers 0 - (n - 1) placed throughout
+     * @throws IllegalArgumentException if n is less than 1
      */
     private int[] getRandomNumbers(int n) {
-        // TODO: Complete method
-        return null;
+        if (n < 1)
+            throw new IllegalArgumentException("n must be positive");
+        Random random = new Random();
+
+        // We need a list of number 0 - (n - 1) to draw numbers from
+        ArrayList<Integer> numbers = new ArrayList<>();
+        for (int i = 0; i < n; i++)
+            numbers.add(i);
+
+        int[] randomNumbers = new int[n];
+        // Pick a random index and remove it, adding it to the array
+        for (int i = 0; i < n; i++) {
+            int index = random.nextInt(numbers.size());
+            randomNumbers[i] = numbers.get(index);
+            numbers.remove(index);
+        }
+
+        return randomNumbers;
     }
 
     /**
@@ -230,8 +274,7 @@ public class SudokuBoard {
      * @return if the cell at the row and column specified creates any contradictions
      */
     private boolean isValidCell(int row, int col) {
-        // TODO: Complete method
-        return false;
+        return isValidRow(row, col) && isValidCol(row, col) && isValidBox(row, col);
     }
 
     /**
@@ -239,8 +282,7 @@ public class SudokuBoard {
      * @return if the cell at the specified coordinate creates any contradictions
      */
     private boolean isValidCell(Coordinate coord) {
-        // TODO: Complete method
-        return false;
+        return isValidCell(coord.getRow(), coord.getCol());
     }
 
     /**
@@ -249,8 +291,15 @@ public class SudokuBoard {
      * @return if the cell at the specified coordinate creates any contradictions in its row
      */
     private boolean isValidRow(int row, int col) {
-        // TODO: Complete method
-        return false;
+        int cellNum = getCell(row, col);
+
+        // Go through all the columns
+        for (int i = 0; i < 9; i++)
+            // If the column isn't the one we're checking, and it has the same number, it is not valid
+            if (i != col && getCell(row, i) == cellNum)
+                return false;
+
+        return true;
     }
 
     /**
@@ -258,8 +307,7 @@ public class SudokuBoard {
      * @return if the cell at the specified coordinate creates any contradictions in its row
      */
     private boolean isValidRow(Coordinate coord) {
-        // TODO: Complete method
-        return false;
+        return isValidRow(coord.getRow(), coord.getCol());
     }
 
     /**
@@ -268,8 +316,15 @@ public class SudokuBoard {
      * @return if the cell at the specified coordinate creates any contradictions in its column
      */
     private boolean isValidCol(int row, int col) {
-        // TODO: Complete method
-        return false;
+        int cellNum = getCell(row, col);
+
+        // Go through all the rows
+        for (int i = 0; i < 9; i++)
+            // If the row isn't the one we're checking, and it has the same number, it is not valid
+            if (i != row && getCell(i, col) == cellNum)
+                return false;
+
+        return true;
     }
 
     /**
@@ -277,8 +332,7 @@ public class SudokuBoard {
      * @return if the cell at the specified coordinate creates any contradictions in its column
      */
     private boolean isValidCol(Coordinate coord) {
-        // TODO: Complete method
-        return false;
+        return isValidCol(coord.getRow(), coord.getCol());
     }
 
     /**
@@ -287,8 +341,21 @@ public class SudokuBoard {
      * @return if the cell at the specified coordinate creates any contradictions in its box
      */
     private boolean isValidBox(int row, int col) {
-        // TODO: Complete method
-        return false;
+        int cellNum = getCell(row, col);
+
+        int boxRow = row / 3; // the box row will be 0 - 2
+        int boxCol = col / 3; // the box col will be 0 - 2
+
+        // Check the surrounding box of the cell
+        for (int i = boxRow * 3; i < boxRow * 3 + 3; i++) {
+            for (int j = boxCol * 3; j < boxCol * 3 + 3; j++) {
+                // If it is not the cell we are checking, and it has the same number, it is not valid
+                if (i != row && j != col && getCell(i, j) == cellNum)
+                    return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -296,8 +363,7 @@ public class SudokuBoard {
      * @return if the cell at the specified coordinate creates any contradictions in its box
      */
     private boolean isValidBox(Coordinate coord) {
-        // TODO: Complete method
-        return false;
+        return isValidBox(coord.getRow(), coord.getCol());
     }
 
     /**
@@ -320,7 +386,7 @@ public class SudokuBoard {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 3; j++) {
                 for (int k = 0; k < 3; k++) {
-                    boardString.append(getCell(i, j));
+                    boardString.append(getCell(i, j * 3 + k));
                     boardString.append(" ");
                 }
                 if (j != 2)
