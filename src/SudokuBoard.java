@@ -151,7 +151,12 @@ public class SudokuBoard {
      * Clears the current board, setting each cell to be 0.
      */
     private void clearBoard() {
-        // TODO: Complete method
+        // Set each cell to be 0
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                setCell(i, j, 0);
+            }
+        }
     }
 
     /**
