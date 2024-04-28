@@ -22,7 +22,9 @@ public class SudokuPuzzle {
      * Constructs a sudoku puzzle with a single solution.
      */
     public SudokuPuzzle() {
-        // TODO: Complete method
+        solution = new SudokuBoard();
+        solution.generateBoard();
+        puzzle = solution.generatePuzzle();
     }
 
     /**
@@ -34,6 +36,8 @@ public class SudokuPuzzle {
      */
     public SudokuPuzzle(SudokuBoard puzzle, SudokuBoard solution) throws IllegalArgumentException {
         // TODO: Complete method
+        this.puzzle = new SudokuBoard(puzzle);
+        this.solution = new SudokuBoard(solution);
     }
 
     /**
@@ -72,16 +76,6 @@ public class SudokuPuzzle {
     @Override
     public String toString() {
         // TODO: Complete method
-        StringBuilder boardString = new StringBuilder();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                for (int k = 0; k < 3; k++) {
-                    boardString.append(puzzle.getCell(i, j));
-                }
-                boardString.append("|");
-            }
-            boardString.append("-----------");
-        }
-        return boardString.toString();
+        return puzzle.toString();
     }
 }
