@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 /**
  * This class represents a Sudoku board (solved or unsolved, valid or invalid). This class includes all the
@@ -20,7 +22,16 @@ public class SudokuBoard {
      * cell to be 0, which will be our indicator of an empty cell.
      */
     public SudokuBoard() {
-        // TODO: Complete method
+        cells = new ArrayList<>();
+
+        for (int i = 0; i < 9; i++) {
+            ArrayList<Integer> row = new ArrayList<>();
+            for (int j = 0; j < 9; j++) {
+                row.add(0);
+            }
+
+            cells.add(row);
+        }
     }
 
     /**
@@ -30,7 +41,51 @@ public class SudokuBoard {
      * @throws IllegalArgumentException if the board is improperly formatted
      */
     public SudokuBoard(String board) throws IllegalArgumentException {
-        // TODO: Complete method
+        /* Board will look like:
+
+        0 0 0 | 0 0 0 | 0 0 0
+        0 0 0 | 0 0 0 | 0 0 0
+        0 0 0 | 0 0 0 | 0 0 0
+        ---------------------
+        0 0 0 | 0 0 0 | 0 0 0
+        0 0 0 | 0 0 0 | 0 0 0
+        0 0 0 | 0 0 0 | 0 0 0
+        ---------------------
+        0 0 0 | 0 0 0 | 0 0 0
+        0 0 0 | 0 0 0 | 0 0 0
+        0 0 0 | 0 0 0 | 0 0 0
+
+         */
+        cells = new ArrayList<>();
+
+        Scanner boardScanner = new Scanner(board);
+
+        // Go row by row
+        for (int i = 0; i < 11; i++) {
+            Scanner rowScanner = new Scanner(boardScanner.nextLine());
+
+            if (i != 3 && i != 7) { // At rows 3 and 7, it should be a row of '-'s
+                // Each row will be 0 0 0 | 0 0 0 | 0 0 0
+                // We need to parse through the ints and the non ints
+
+                ArrayList<Integer> row = new ArrayList<>();
+
+                // Each row will have 3 numbers and then a non int 3 + 1 + 3 + 1 + 3 = 11
+                for (int j = 0; j < 11; j++) {
+                    String nextString = rowScanner.next();
+
+                    if (j != 3 && j != 7) { // at indices 3 and 7, the character should be |
+                        try {
+                            row.add(Integer.parseInt(nextString));
+                        } catch (NumberFormatException nfe) {
+                            throw new IllegalArgumentException("Improper formatting");
+                        }
+                    }
+                }
+
+                cells.add(row);
+            }
+        }
     }
 
     /**
@@ -38,7 +93,16 @@ public class SudokuBoard {
      * @param other another SudokuBoard we want to copy
      */
     public SudokuBoard(SudokuBoard other) {
-        // TODO: Complete method
+        cells = new ArrayList<>();
+
+        for (int i = 0; i < 9; i++) {
+            ArrayList<Integer> row = new ArrayList<>();
+            for (int j = 0; j < 9; j++) {
+                row.add(other.getCell(i, j));
+            }
+
+            cells.add(row);
+        }
     }
 
     /**
@@ -48,8 +112,9 @@ public class SudokuBoard {
      * @throws IndexOutOfBoundsException if row or col is not 0-8
      */
     public int getCell(int row, int col) {
-        // TODO: Complete method
-        return -1;
+        if (row < 0 || 8 < row || col < 0 || 8 < col)
+            throw new IndexOutOfBoundsException("Invalid row or col");
+        return cells.get(row).get(col);
     }
 
     /**
@@ -243,5 +308,25 @@ public class SudokuBoard {
      */
     private void mirror() {
 
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder boardString = new StringBuilder();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    boardString.append(getCell(i, j));
+                    boardString.append(" ");
+                }
+                if (j != 2)
+                    boardString.append("| ");
+                else
+                    boardString.append("\n");
+            }
+            if (i == 2 || i == 5)
+                boardString.append("---------------------\n");
+        }
+        return boardString.toString();
     }
 }
