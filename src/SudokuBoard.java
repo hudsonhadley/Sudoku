@@ -244,13 +244,4 @@ public class SudokuBoard {
     private void mirror() {
 
     }
-
-    /**
-     * @return a String representation of the board with columns separated by spaces and rows by newlines
-     */
-    @Override
-    public String toString() {
-        // TODO: Complete method
-        return "";
-    }
 }

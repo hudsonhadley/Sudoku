@@ -11,7 +11,7 @@ public class CommandLineUI {
         // TODO: Complete method
         boolean game = true;
         SudokuPuzzle board = new SudokuPuzzle();
-        System.out.println(board.puzzle.toString());
+        System.out.println(board.toString());
 
         Scanner scan = new Scanner(System.in);
         scan.useDelimiter("");

@@ -10,7 +10,7 @@ public class SudokuPuzzle {
      * An uncompleted sudoku board. This puzzle corresponds to the other member representing the solution. (This should
      * only have one solution).
      */
-    public SudokuBoard puzzle;
+    private SudokuBoard puzzle;
 
     /**
      * The solution to the other member representing the unfilled version of the board. Guesses will be compared against
@@ -57,5 +57,14 @@ public class SudokuPuzzle {
     public boolean isSolved() {
         // TODO: Complete method
         return false;
+    }
+
+    /**
+     * @return a String representation of the board with columns separated by spaces and rows by newlines
+     */
+    @Override
+    public String toString() {
+        // TODO: Complete method
+        return "";
     }
 }
