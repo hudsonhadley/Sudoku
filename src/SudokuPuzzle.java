@@ -10,7 +10,7 @@ public class SudokuPuzzle {
      * An uncompleted sudoku board. This puzzle corresponds to the other member representing the solution. (This should
      * only have one solution).
      */
-    private SudokuBoard puzzle;
+    public SudokuBoard puzzle;
 
     /**
      * The solution to the other member representing the unfilled version of the board. Guesses will be compared against
