@@ -166,33 +166,17 @@ public class SudokuBoard {
     public void generateBoard() {
         clearBoard();
 
-        Deque<Coordinate> unfilledCells = new ArrayDeque<>();
-        Deque<Coordinate> filledCells = new ArrayDeque<>();
+        Deque<Coordinate> path = new ArrayDeque<>();
 
         // Push a random ordering of coordinates to the unfilled cells
         for (int row = 0; row < 9; row++) {
             int[] randomCols = getRandomNumbers(9);
 
             for (int i = 0; i < 9; i++)
-                unfilledCells.push(new Coordinate(row, randomCols[i]));
+                path.push(new Coordinate(row, randomCols[i]));
         }
 
-        // Fill the puzzle in the predefined order until there are no unfilled cells
-        while (!unfilledCells.isEmpty()) {
-            // Set the cell at the top of the stack to be one more than it is (if it is empty it will now be 1)
-            setCell(unfilledCells.peek(), getCell(unfilledCells.peek()) + 1);
-
-            // If it is a valid cell, push it to the filled cells, removing it from the unfilled cells
-            if (isValidCell(unfilledCells.peek())) {
-                filledCells.push(unfilledCells.pop());
-            } else { // If it is not valid
-                // Keep backtracking until we find a cell that isn't 9
-                while (getCell(unfilledCells.peek()) == 9) {
-                    setCell(unfilledCells.peek(), 0);
-                    unfilledCells.push(filledCells.pop());
-                }
-            }
-        }
+        solvePath(path);
     }
 
     /**
@@ -204,6 +188,31 @@ public class SudokuBoard {
     public SudokuBoard generatePuzzle() {
         // TODO: Complete method
         return null;
+    }
+
+    /**
+     * Solves the board by the path described using a backtracking algorithm on the path using it as a stack
+     * @param path A stack (Deque) holding the path we want to go
+     */
+    private void solvePath(Deque<Coordinate> path) {
+        Deque<Coordinate> filledCells = new ArrayDeque<>();
+
+        // Fill the puzzle in the predefined order until there are no unfilled cells
+        while (!path.isEmpty()) {
+            // Set the cell at the top of the stack to be one more than it is (if it is empty it will now be 1)
+            setCell(path.peek(), getCell(path.peek()) + 1);
+
+            // If it is a valid cell, push it to the filled cells, removing it from the unfilled cells
+            if (isValidCell(path.peek())) {
+                filledCells.push(path.pop());
+            } else { // If it is not valid
+                // Keep backtracking until we find a cell that isn't 9
+                while (getCell(path.peek()) == 9) {
+                    setCell(path.peek(), 0);
+                    path.push(filledCells.pop());
+                }
+            }
+        }
     }
 
     /**
