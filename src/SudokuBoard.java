@@ -184,15 +184,67 @@ public class SudokuBoard {
      * one solution for the puzzle generated. Note that if the board is not filled, an entirely new board will be
      * created and a puzzle will be generated from it.
      * @return a sudoku puzzle with one solution
+     * @throws IllegalStateException if the board is not full or invalid
      */
     public SudokuBoard generatePuzzle() {
-        // TODO: Complete method
-        return null;
+        if (!isFull())
+            throw new IllegalStateException("Board has not been generated");
+        else if (!isValid())
+            throw new IllegalStateException("Board is invalid");
+
+        // We will remove from the copy as to not lose the original (the solution)
+        SudokuBoard puzzleBoard = new SudokuBoard(this);
+        Random random = new Random();
+
+        // We want to have 30 numbers left on the board
+        final int N = 30;
+        int emptySpots = 0;
+        ArrayList<Coordinate> availableSpots = new ArrayList<>();
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                availableSpots.add(new Coordinate(i, j));
+            }
+        }
+
+        while (emptySpots < 81 - N) {
+            // Choose a random spot on the board
+            Coordinate randCoordinate = availableSpots.get(random.nextInt(availableSpots.size()));
+            // Remove it and record what number it was
+            int cellNum = puzzleBoard.getCell(randCoordinate);
+            puzzleBoard.setCell(randCoordinate, 0);
+
+            // Go through every other number and try to solve it
+            boolean broke = false;
+            for (int i = 1; i <= 9; i++) {
+                if (i != cellNum) {
+                    puzzleBoard.setCell(randCoordinate, i);
+                    // If we are able to solve the puzzle using a different number, we cannot change that cell
+                    if (puzzleBoard.solved() != null) {
+                        broke = true;
+                        break;
+                    }
+                }
+            }
+            availableSpots.remove(randCoordinate);
+
+            // If we broke, we want to keep the cell as it is
+            if (broke) {
+                puzzleBoard.setCell(randCoordinate, cellNum);
+            } else {// If we didn't break, we want to remove it
+                puzzleBoard.setCell(randCoordinate, 0);
+                emptySpots++;
+            }
+        }
+
+
+        return puzzleBoard;
     }
 
     /**
      * Solves the board by the path described using a backtracking algorithm on the path using it as a stack
      * @param path A stack (Deque) holding the path we want to go
+     * @throws IllegalStateException if the board is unsolvable
      */
     private void solvePath(Deque<Coordinate> path) {
         Deque<Coordinate> filledCells = new ArrayDeque<>();
@@ -209,6 +261,10 @@ public class SudokuBoard {
                 // Keep backtracking until we find a cell that isn't 9
                 while (getCell(path.peek()) == 9) {
                     setCell(path.peek(), 0);
+                    // If we have reached the end of possible filledCells, there's nothing else to try
+                    if (filledCells.isEmpty())
+                        throw new IllegalStateException("Board unsolvable");
+
                     path.push(filledCells.pop());
                 }
             }
@@ -219,8 +275,29 @@ public class SudokuBoard {
      * Tries to solve the board using a backtracking algorithm.
      * @return the solved board (if possible). Null if the board cannot be solved
      */
-    private SudokuBoard solved() {
-        return null;
+    public SudokuBoard solved() {
+        if (!isValid())
+            return null;
+
+        SudokuBoard boardCopy = new SudokuBoard(this);
+        Deque<Coordinate> path = new ArrayDeque<>();
+
+        // Add to the path any cell that is empty
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (getCell(i, j) == 0) {
+                    path.push(new Coordinate(i, j));
+                }
+
+            }
+        }
+
+        try {
+            boardCopy.solvePath(path);
+            return boardCopy;
+        } catch (IllegalStateException ise) { // If we are unable to solve the board
+            return null;
+        }
     }
 
     /**
@@ -295,7 +372,8 @@ public class SudokuBoard {
      * @return if the cell at the row and column specified creates any contradictions
      */
     private boolean isValidCell(int row, int col) {
-        return isValidRow(row, col) && isValidCol(row, col) && isValidBox(row, col);
+        // For a cell to be valid, it must either be empty or have no repetitions in column, row, or box
+        return getCell(row, col) == 0 || (isValidRow(row, col) && isValidCol(row, col) && isValidBox(row, col));
     }
 
     /**
