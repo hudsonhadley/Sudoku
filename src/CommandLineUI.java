@@ -10,7 +10,7 @@ public class CommandLineUI {
     public static void main(String[] args) {
         // TODO: Complete method
         boolean game = true;
-        SudokuPuzzle board = new SudokuPuzzle();
+        SudokuPuzzle board = new SudokuPuzzle(30);
         System.out.println(board.toString());
 
         Scanner scan = new Scanner(System.in);

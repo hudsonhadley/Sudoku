@@ -20,11 +20,13 @@ public class SudokuPuzzle {
 
     /**
      * Constructs a sudoku puzzle with a single solution.
+     * @param numbersLeft the amount of numbers we want left on the board
+     * @throws IllegalArgumentException if the numbers left is too small, generatePuzzle will throw an error
      */
-    public SudokuPuzzle() {
+    public SudokuPuzzle(int numbersLeft) throws IllegalArgumentException {
         solution = new SudokuBoard();
         solution.generateBoard();
-        puzzle = solution.generatePuzzle();
+        puzzle = solution.generatePuzzle(numbersLeft);
     }
 
     /**

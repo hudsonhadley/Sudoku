@@ -184,9 +184,11 @@ public class SudokuBoard {
      * one solution for the puzzle generated. Note that if the board is not filled, an entirely new board will be
      * created and a puzzle will be generated from it.
      * @return a sudoku puzzle with one solution
+     * @param numbersLeft the amount of numbers we want left on the board
      * @throws IllegalStateException if the board is not full or invalid
+     * @throws IllegalArgumentException if the numbers left is too small and a unique puzzle cannot be created
      */
-    public SudokuBoard generatePuzzle() {
+    public SudokuBoard generatePuzzle(int numbersLeft) {
         if (!isFull())
             throw new IllegalStateException("Board has not been generated");
         else if (!isValid())
@@ -196,29 +198,66 @@ public class SudokuBoard {
         SudokuBoard puzzleBoard = new SudokuBoard(this);
         Random random = new Random();
 
-        // We want to have 30 numbers left on the board
-        final int N = 30;
-        int emptySpots = 0;
-        ArrayList<Coordinate> availableSpots = new ArrayList<>();
-
+        /* Construct a list of half of the coordinates such that j >= i for each coordinate
+         * This gets the upper triangle such that coordinates above the main diagonal are not counted right now
+         * i.e. only values of 1 are counted
+         *
+         * 1 1 1 1 1 1 1 1 1
+         * 0 1 1 1 1 1 1 1 1
+         * 0 0 1 1 1 1 1 1 1
+         * 0 0 0 1 1 1 1 1 1
+         * 0 0 0 0 1 1 1 1 1
+         * 0 0 0 0 0 1 1 1 1
+         * 0 0 0 0 0 0 1 1 1
+         * 0 0 0 0 0 0 0 1 1
+         * 0 0 0 0 0 0 0 0 1
+         *
+         */
+        ArrayList<Coordinate> halfCoordinates = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                availableSpots.add(new Coordinate(i, j));
+            for (int j = i; j < 9; j++) {
+                halfCoordinates.add(new Coordinate(i, j));
             }
         }
 
-        while (emptySpots < 81 - N) {
-            // Choose a random spot on the board
-            Coordinate randCoordinate = availableSpots.get(random.nextInt(availableSpots.size()));
+        // We will then put each coordinate in a line where for each coordinate that has a symmetric complement (not on
+        // the diagonal) the next coordinate in line is that complement (so, (6, 0) is followed by (0, 6), etc.)
+        Queue<Coordinate> lineToRemove = new ArrayDeque<>();
+
+        // Add each element to the line
+        while (!halfCoordinates.isEmpty()) {
+            // Pick a random one
+            int index = random.nextInt(halfCoordinates.size());
+            Coordinate c = halfCoordinates.get(index);
+            halfCoordinates.remove(index);
+
+            lineToRemove.offer(c);
+            // If it is not the diagonal, add its complement
+            if (c.getRow() != c.getCol())
+                lineToRemove.offer(new Coordinate(c.getCol(), c.getRow()));
+        }
+
+        // We want to have 30 numbers left on the board (note that if this is too small, numbers will be removed until
+        // no other number can be removed) --> the number of hints left will be more than N
+        int numLeft = 81;
+
+        // We want to stop once we have N numbers left on the board
+        while (numLeft > numbersLeft) {
+
+            if (lineToRemove.isEmpty())
+                throw new IllegalArgumentException("The board must have more numbers left on the board to " +
+                        "have a unique solution");
+
+            Coordinate coord = lineToRemove.poll();
             // Remove it and record what number it was
-            int cellNum = puzzleBoard.getCell(randCoordinate);
-            puzzleBoard.setCell(randCoordinate, 0);
+            int cellNum = puzzleBoard.getCell(coord);
+            puzzleBoard.setCell(coord, 0);
 
             // Go through every other number and try to solve it
             boolean broke = false;
             for (int i = 1; i <= 9; i++) {
                 if (i != cellNum) {
-                    puzzleBoard.setCell(randCoordinate, i);
+                    puzzleBoard.setCell(coord, i);
                     // If we are able to solve the puzzle using a different number, we cannot change that cell
                     if (puzzleBoard.solved() != null) {
                         broke = true;
@@ -226,17 +265,15 @@ public class SudokuBoard {
                     }
                 }
             }
-            availableSpots.remove(randCoordinate);
 
             // If we broke, we want to keep the cell as it is
             if (broke) {
-                puzzleBoard.setCell(randCoordinate, cellNum);
-            } else {// If we didn't break, we want to remove it
-                puzzleBoard.setCell(randCoordinate, 0);
-                emptySpots++;
+                puzzleBoard.setCell(coord, cellNum);
+            } else { // If we didn't break, we want to remove it
+                puzzleBoard.setCell(coord, 0);
+                numLeft--;
             }
         }
-
 
         return puzzleBoard;
     }
