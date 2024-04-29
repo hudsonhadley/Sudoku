@@ -38,6 +38,22 @@ public class Coordinate {
     }
 
     /**
+     * @param other another object we want to see if it is equal
+     * @return if the row and col are the same
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == null)
+            return false;
+        else if (!(other instanceof Coordinate))
+            return false;
+
+        Coordinate otherCoordinate = (Coordinate) other;
+
+        return this.row == otherCoordinate.row && this.col == otherCoordinate.col;
+    }
+
+    /**
      * @return a String representation of the coordinate as (row, col)
      */
     @Override
