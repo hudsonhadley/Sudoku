@@ -10,6 +10,7 @@ public class CommandLineUI {
     public static void main(String[] args) {
         // TODO: Complete method
         boolean game = true;
+        int incorrect = 0;
         SudokuPuzzle board = new SudokuPuzzle(30);
         System.out.println(board.toString());
 
@@ -27,7 +28,12 @@ public class CommandLineUI {
 
             if (!board.guess(rowGuess-1, colGuess-1, numGuess)) {
                 System.out.println("Incorrect guess");
+                incorrect++;
                 System.out.println(board.toString());
+                if (incorrect == 3) {
+                    System.out.println("3 incorrect guesses. Game over!");
+                    break;
+                }
                 continue;
             } else {
                 System.out.println("Correct guess");
