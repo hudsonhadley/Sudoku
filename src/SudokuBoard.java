@@ -282,15 +282,6 @@ public class SudokuBoard {
             }
         }
 
-        // Flip and mirror the board a random amount so that we have a random symmetry
-        int mirrorCounts = random.nextInt(2);
-        int flipCounts = random.nextInt(4);
-
-        for (int i = 0; i < mirrorCounts; i++)
-            puzzleBoard.mirror();
-        for (int i = 0; i < flipCounts; i++)
-            puzzleBoard.flip();
-
         return puzzleBoard;
     }
 
