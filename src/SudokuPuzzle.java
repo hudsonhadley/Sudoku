@@ -1,5 +1,6 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * This class represents a sudoku puzzle. Each puzzle has a corresponding solution. In other words, each class has
@@ -30,6 +31,17 @@ public class SudokuPuzzle {
         solution = new SudokuBoard();
         solution.generateBoard();
         puzzle = solution.generatePuzzle(numbersLeft);
+
+        // Flip and mirror stuff around to make it as random as possible
+        Random random = new Random();
+
+        int mirrorCounts = random.nextInt(2);
+        int flipCounts = random.nextInt(4);
+
+        for (int i = 0; i < mirrorCounts; i++)
+            mirror();
+        for (int i = 0; i < flipCounts; i++)
+            flip();
     }
 
     /**
@@ -75,6 +87,22 @@ public class SudokuPuzzle {
             }
         }
         return true;
+    }
+
+    /**
+     * Flips the puzzle and solution clockwise by 90 degrees.
+     */
+    private void flip() {
+        solution.flip();
+        puzzle.flip();
+    }
+
+    /**
+     * Mirrors the puzzle and solution horizontally.
+     */
+    private void mirror() {
+        solution.mirror();
+        puzzle.mirror();
     }
 
     /**
