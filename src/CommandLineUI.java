@@ -16,7 +16,6 @@ public class CommandLineUI {
         Scanner scan = new Scanner(System.in);
 
         while (game) {
-            System.out.println(board.toString());
             System.out.print("Row Guess: ");
             int rowGuess = scan.nextInt();
             System.out.print("Column Guess: ");
@@ -26,11 +25,13 @@ public class CommandLineUI {
 
             Coordinate playerGuess = new Coordinate(rowGuess, colGuess);
 
-            if (!board.guess(rowGuess, colGuess, numGuess)) {
+            if (!board.guess(rowGuess-1, colGuess-1, numGuess)) {
                 System.out.println("Incorrect guess");
+                System.out.println(board.toString());
                 continue;
             } else {
                 System.out.println("Correct guess");
+                System.out.println(board.toString());
             }
 
             if (board.isSolved()) {
