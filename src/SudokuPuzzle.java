@@ -1,3 +1,6 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * This class represents a sudoku puzzle. Each puzzle has a corresponding solution. In other words, each class has
  * what the user is given, and what the correct answer is. When a user guesses, their attempt is then measured
@@ -80,5 +83,9 @@ public class SudokuPuzzle {
     @Override
     public String toString() {
         return puzzle.toString();
+    }
+
+    public String solveToString() {
+        return solution.toString();
     }
 }

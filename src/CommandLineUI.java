@@ -13,6 +13,7 @@ public class CommandLineUI {
         int incorrect = 0;
         SudokuPuzzle board = new SudokuPuzzle(30);
         System.out.println(board.toString());
+        System.out.println(board.solveToString());
 
         Scanner scan = new Scanner(System.in);
 
