@@ -14,7 +14,6 @@ public class CommandLineUI {
         System.out.println(board.toString());
 
         Scanner scan = new Scanner(System.in);
-        scan.useDelimiter("");
 
         while (game) {
             System.out.println(board.toString());

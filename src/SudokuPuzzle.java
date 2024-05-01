@@ -53,6 +53,10 @@ public class SudokuPuzzle {
      */
     public boolean guess(int row, int col, int cell) throws IndexOutOfBoundsException, IllegalArgumentException {
         // TODO: Complete method
+        if (solution.getCell(row, col) == cell) {
+            puzzle.setCell(row, col, cell);
+            return true;
+        }
         return false;
     }
 
