@@ -282,6 +282,15 @@ public class SudokuBoard {
             }
         }
 
+        // Flip and mirror the board a random amount so that we have a random symmetry
+        int mirrorCounts = random.nextInt(2);
+        int flipCounts = random.nextInt(4);
+
+        for (int i = 0; i < mirrorCounts; i++)
+            puzzleBoard.mirror();
+        for (int i = 0; i < flipCounts; i++)
+            puzzleBoard.flip();
+
         return puzzleBoard;
     }
 
@@ -512,15 +521,28 @@ public class SudokuBoard {
     /**
      * Flips a board clockwise by 90 degrees.
      */
-    private void flip() {
+    public void flip() {
+        SudokuBoard boardCopy = new SudokuBoard(this);
 
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                setCell(i, j, boardCopy.getCell(8 - j, i));
+            }
+        }
     }
 
     /**
      * Mirrors a board along the horizontal line such that the top and the bottom mirror each other.
      */
-    private void mirror() {
+    public void mirror() {
+        SudokuBoard boardCopy = new SudokuBoard(this);
+        Deque< ArrayList<Integer> > rowStack = new ArrayDeque<>();
 
+        for (int i = 0; i < 9; i++)
+            rowStack.push(boardCopy.getRow(i));
+
+        for (int i = 0; i < 9; i++)
+            cells.set(i, rowStack.pop());
     }
 
     /**
