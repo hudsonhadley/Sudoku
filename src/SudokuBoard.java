@@ -526,7 +526,12 @@ public class SudokuBoard {
             for (int j = 0; j < 3; j++) {
                 // For every 3 numbers
                 for (int k = 0; k < 3; k++) {
-                    boardString.append(getCell(i, j * 3 + k)); // Append the next number and a space
+                    int cellNum = getCell(i, j * 3 + k);
+
+                    if (cellNum == 0)
+                        boardString.append("-");
+                    else
+                        boardString.append(cellNum); // Append the next number and a space
                     boardString.append(" ");
                 }
                 // If it is not the last set, we want a separator
