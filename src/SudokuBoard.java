@@ -519,31 +519,60 @@ public class SudokuBoard {
     @Override
     public String toString() {
         StringBuilder boardString = new StringBuilder();
+        // We want to have column designators which will just be a line of 1-9 to indicate which is which
+
+        // We need three spaces to start. The for loop adds two spaced between them if they are in different boxes,
+        // so we need an extra space at the start
+        boardString.append(" ");
+
+        // Add all the numbers 1 - 9 to the top and separate them properly
+        for (int i = 0; i < 9; i++) {
+            // If the number is in a new box, add an extra space
+            if (i % 3 == 0)
+                boardString.append("  ");
+
+            boardString.append(i + 1);
+            boardString.append(" ");
+
+        }
+        // Enclose the box with a top line
+        boardString.append("\n   ---------------------\n");
 
         // For every row
         for (int i = 0; i < 9; i++) {
+            // The start of each row will be the row indicator followed by the side of the box
+            boardString.append(i + 1);
+            boardString.append(" |");
+
             // We need 3 iterations of numbers 0 0 0 | 0 0 0 | 0 0 0
             for (int j = 0; j < 3; j++) {
                 // For every 3 numbers
                 for (int k = 0; k < 3; k++) {
                     int cellNum = getCell(i, j * 3 + k);
 
+                    // If the cell is empty, put a dash
                     if (cellNum == 0)
                         boardString.append("-");
-                    else
-                        boardString.append(cellNum); // Append the next number and a space
-                    boardString.append(" ");
+                    else // Otherwise append the number
+                        boardString.append(cellNum);
+
+                    // Also if it is not the last number, add a space so the numbers are spaced out a bit
+                    if (j * 3 + k < 8)
+                        boardString.append(" ");
                 }
+
                 // If it is not the last set, we want a separator
-                if (j != 2)
+                if (j < 2)
                     boardString.append("| ");
-                else // If it is the last set, we want a newline
-                    boardString.append("\n");
+                else // If it is the last set, enclose the box on the left and add a newline
+                    boardString.append("|\n");
             }
             // If it is row index 2 or 5, we want a separator
             if (i == 2 || i == 5)
-                boardString.append("---------------------\n");
+                boardString.append("  |---------------------|\n");
         }
+
+        boardString.append("   ---------------------"); // Enclose the box on the bottom with a line
 
         return boardString.toString();
     }
