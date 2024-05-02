@@ -49,11 +49,45 @@ public class CommandLineUI {
         // Format the string properly
         return String.format("%s:%s:%s", hourBuilder, minuteBuilder, secondBuilder);
     }
+
+    /**
+     * Gets input from the Scanner that is between bounds. The method also prints out a message
+     * after each attempt.
+     * @param message the message that will be printed
+     * @param min the minimum bound a number can be (inclusive)
+     * @param max the maximum bound a number can be (inclusive)
+     * @return an integer the user has entered between min and max inclusive
+     * @throws IllegalArgumentException if min is greater than max
+     */
+    public static int getNumber(String message, int min, int max) throws IllegalArgumentException {
+        if (min > max)
+            throw new IllegalArgumentException("Min must be less than or equal to max");
+        Scanner scanner = new Scanner(System.in);
+        int num;
+
+        while (true) {
+            System.out.print(message);
+            try {
+                num = Integer.parseInt(scanner.nextLine());
+
+                if (min <= num && num <= max) {
+                    break;
+                } else {
+                    System.out.printf("Enter a number %d - %d\n", min, max);
+                }
+            } catch (NumberFormatException nfe) {
+                System.out.println("Enter a number");
+            }
+        }
+
+        return num;
+    }
+
     public static void main(String[] args) {
         // TODO: Complete method
         boolean game = true; //game loop variable
         int incorrect = 0; //how many incorrect guesses the user has made
-        SudokuPuzzle board = new SudokuPuzzle(30);
+        SudokuPuzzle board = new SudokuPuzzle(40);
         //System.out.println(board.solveToString());
 
         Scanner scan = new Scanner(System.in);
@@ -62,35 +96,26 @@ public class CommandLineUI {
 
         while (game) { //the game loop that prints the board, takes in a player guess, and turns it into a cell coordinate if valid
             System.out.println(board.toString()); //prints the board
-            System.out.print("Row Guess: ");
-            int rowGuess = scan.nextInt();
-            System.out.print("Column Guess: ");
-            int colGuess = scan.nextInt();
-            System.out.print("Number Guess: ");
-            int numGuess = scan.nextInt();
 
-            try {
-                if (!board.validGuess(rowGuess-1, colGuess-1)) { //checks if the cell guessed is empty
-                    System.out.println("Cell is filled!");
-                    continue;
+            int rowGuess = getNumber("Row Guess: ", 1, 9);
+            int colGuess = getNumber("Column Guess: ", 1, 9);
+            int numGuess = getNumber("Number Guess: ", 1, 9);
+
+            if (!board.validGuess(rowGuess - 1, colGuess - 1)) { //checks if the cell guessed is empty
+                System.out.println("Cell is filled!");
+            } else if (!board.guess(rowGuess - 1, colGuess - 1, numGuess)) { //if the guess is incorrect
+                System.out.println("Incorrect guess");
+                incorrect++;
+
+                if (incorrect == 3) { //end the game if the player has 3 incorrect guesses
+                    System.out.println("3 incorrect guesses. Game over!");
+                    System.exit(0); // Quit the game
                 }
 
-                if (!board.guess(rowGuess - 1, colGuess - 1, numGuess)) { //if the guess is incorrect
-                    System.out.println("Incorrect guess");
-                    incorrect++;
-                    if (incorrect == 3) { //end the game if the player has 3 incorrect guesses
-                        System.out.println("3 incorrect guesses. Game over!");
-                        System.exit(0);
-                    }
-                    continue;
-                } else {
-                    System.out.println("Correct guess");
-                }
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("Error: Guess out of bounds (1-9)");
-            } catch (IllegalArgumentException e) {
-                System.out.println("Error: Guess must be a number");
+            } else {
+                System.out.println("Correct guess");
             }
+
             if (board.isSolved()) { //ends game if the board is full
                 game = false;
             }
