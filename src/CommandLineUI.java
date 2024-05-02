@@ -51,17 +51,17 @@ public class CommandLineUI {
     }
     public static void main(String[] args) {
         // TODO: Complete method
-        boolean game = true;
-        int incorrect = 0;
+        boolean game = true; //game loop variable
+        int incorrect = 0; //how many incorrect guesses the user has made
         SudokuPuzzle board = new SudokuPuzzle(30);
-        System.out.println(board.toString());
         //System.out.println(board.solveToString());
 
         Scanner scan = new Scanner(System.in);
 
         long start = System.currentTimeMillis();
 
-        while (game) {
+        while (game) { //the game loop that prints the board, takes in a player guess, and turns it into a cell coordinate if valid
+            System.out.println(board.toString()); //prints the board
             System.out.print("Row Guess: ");
             int rowGuess = scan.nextInt();
             System.out.print("Column Guess: ");
@@ -69,26 +69,31 @@ public class CommandLineUI {
             System.out.print("Number Guess: ");
             int numGuess = scan.nextInt();
 
-            Coordinate playerGuess = new Coordinate(rowGuess, colGuess);
-
-            if (!board.guess(rowGuess-1, colGuess-1, numGuess)) {
-                System.out.println("Incorrect guess");
-                incorrect++;
-                System.out.println(board.toString());
-                if (incorrect == 3) {
-                    System.out.println("3 incorrect guesses. Game over!");
-                    System.exit(0);
+            try {
+                if (!board.validGuess(rowGuess-1, colGuess-1)) { //checks if the cell guessed is empty
+                    System.out.println("Cell is filled!");
+                    continue;
                 }
-                continue;
-            } else {
-                System.out.println("Correct guess");
-                System.out.println(board.toString());
-            }
 
-            if (board.isSolved()) {
+                if (!board.guess(rowGuess - 1, colGuess - 1, numGuess)) { //if the guess is incorrect
+                    System.out.println("Incorrect guess");
+                    incorrect++;
+                    if (incorrect == 3) { //end the game if the player has 3 incorrect guesses
+                        System.out.println("3 incorrect guesses. Game over!");
+                        System.exit(0);
+                    }
+                    continue;
+                } else {
+                    System.out.println("Correct guess");
+                }
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Error: Guess out of bounds (1-9)");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: Guess must be a number");
+            }
+            if (board.isSolved()) { //ends game if the board is full
                 game = false;
             }
-
         }
 
         long end = System.currentTimeMillis();

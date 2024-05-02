@@ -67,7 +67,6 @@ public class SudokuPuzzle {
      * @throws IllegalArgumentException if the cell is already full, or if the cell is not 1-9
      */
     public boolean guess(int row, int col, int cell) throws IndexOutOfBoundsException, IllegalArgumentException {
-        // TODO: Complete method
         if (solution.getCell(row, col) == cell) {
             puzzle.setCell(row, col, cell);
             return true;
@@ -75,6 +74,14 @@ public class SudokuPuzzle {
         return false;
     }
 
+    /**
+     * @param row the row of the cell to be guessed
+     * @param col the column of the cell to be guessed
+     * @return if the guess is valid (if the cell is empty)
+     */
+    public boolean validGuess(int row, int col) throws IndexOutOfBoundsException, IllegalArgumentException {
+        return solution.getCell(row, col) == 0;
+    }
     /**
      * @return if the puzzle has been solved
      */
