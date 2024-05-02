@@ -98,7 +98,7 @@ public class CommandLineUI {
 
         long end = System.currentTimeMillis();
 
-        System.out.printf("Time: %s", millisToClock(end - start));
+        System.out.printf("Time: %s\n", millisToClock(end - start));
         System.out.println("Incorrect guesses: " + incorrect);
     }
 }

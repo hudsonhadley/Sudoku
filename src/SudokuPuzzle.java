@@ -80,7 +80,7 @@ public class SudokuPuzzle {
      * @return if the guess is valid (if the cell is empty)
      */
     public boolean validGuess(int row, int col) throws IndexOutOfBoundsException, IllegalArgumentException {
-        return solution.getCell(row, col) == 0;
+        return puzzle.getCell(row, col) == 0;
     }
     /**
      * @return if the puzzle has been solved
