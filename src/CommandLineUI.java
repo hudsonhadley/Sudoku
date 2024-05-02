@@ -53,16 +53,17 @@ public class CommandLineUI {
     /**
      * Gets input from the Scanner that is between bounds. The method also prints out a message
      * after each attempt.
+     * @param scanner the Scanner used for input
      * @param message the message that will be printed
      * @param min the minimum bound a number can be (inclusive)
      * @param max the maximum bound a number can be (inclusive)
      * @return an integer the user has entered between min and max inclusive
      * @throws IllegalArgumentException if min is greater than max
      */
-    public static int getNumber(String message, int min, int max) throws IllegalArgumentException {
+    public static int getNumber(Scanner scanner, String message, int min, int max) throws IllegalArgumentException {
         if (min > max)
             throw new IllegalArgumentException("Min must be less than or equal to max");
-        Scanner scanner = new Scanner(System.in);
+
         int num;
 
         while (true) {
@@ -84,7 +85,6 @@ public class CommandLineUI {
     }
 
     public static void main(String[] args) {
-        // TODO: Complete method
         boolean game = true; //game loop variable
         int incorrect = 0; //how many incorrect guesses the user has made
         SudokuPuzzle board = new SudokuPuzzle(40);
@@ -95,11 +95,11 @@ public class CommandLineUI {
         long start = System.currentTimeMillis();
 
         while (game) { //the game loop that prints the board, takes in a player guess, and turns it into a cell coordinate if valid
-            System.out.println(board.toString()); //prints the board
+            System.out.println(board); //prints the board
 
-            int rowGuess = getNumber("Row Guess: ", 1, 9);
-            int colGuess = getNumber("Column Guess: ", 1, 9);
-            int numGuess = getNumber("Number Guess: ", 1, 9);
+            int rowGuess = getNumber(scan, "Row Guess: ", 1, 9);
+            int colGuess = getNumber(scan, "Column Guess: ", 1, 9);
+            int numGuess = getNumber(scan, "Number Guess: ", 1, 9);
 
             if (!board.validGuess(rowGuess - 1, colGuess - 1)) { //checks if the cell guessed is empty
                 System.out.println("Cell is filled!");
