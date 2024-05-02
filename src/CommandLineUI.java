@@ -55,7 +55,7 @@ public class CommandLineUI {
         int incorrect = 0;
         SudokuPuzzle board = new SudokuPuzzle(30);
         System.out.println(board.toString());
-        System.out.println(board.solveToString());
+        //System.out.println(board.solveToString());
 
         Scanner scan = new Scanner(System.in);
 
@@ -77,7 +77,7 @@ public class CommandLineUI {
                 System.out.println(board.toString());
                 if (incorrect == 3) {
                     System.out.println("3 incorrect guesses. Game over!");
-                    break;
+                    System.exit(0);
                 }
                 continue;
             } else {
@@ -94,5 +94,6 @@ public class CommandLineUI {
         long end = System.currentTimeMillis();
 
         System.out.printf("Time: %s", millisToClock(end - start));
+        System.out.println("Incorrect guesses: " + incorrect);
     }
 }
