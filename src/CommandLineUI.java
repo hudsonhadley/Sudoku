@@ -102,7 +102,7 @@ public class CommandLineUI {
             int numGuess = getNumber(scan, "Number Guess: ", 1, 9);
 
             if (!board.validGuess(rowGuess - 1, colGuess - 1)) { //checks if the cell guessed is empty
-                System.out.println("Cell is filled!");
+                System.out.println("\nCell is filled!\n");
             } else if (!board.guess(rowGuess - 1, colGuess - 1, numGuess)) { //if the guess is incorrect
                 System.out.println("\nIncorrect guess\n");
                 incorrect++;
