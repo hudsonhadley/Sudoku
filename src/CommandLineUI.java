@@ -87,7 +87,7 @@ public class CommandLineUI {
     public static void main(String[] args) {
         boolean game = true; //game loop variable
         int incorrect = 0; //how many incorrect guesses the user has made
-        SudokuPuzzle board = new SudokuPuzzle(30);
+        SudokuPuzzle board = new SudokuPuzzle(40);
         //System.out.println(board.solveToString());
 
         Scanner scan = new Scanner(System.in);
@@ -123,7 +123,7 @@ public class CommandLineUI {
 
         long end = System.currentTimeMillis();
 
-        System.out.println(board);
+        System.out.println(board.toString());
         System.out.printf("Time: %s\n", millisToClock(end - start));
         System.out.println("Incorrect guesses: " + incorrect);
     }
