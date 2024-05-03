@@ -104,7 +104,7 @@ public class CommandLineUI {
             if (!board.validGuess(rowGuess - 1, colGuess - 1)) { //checks if the cell guessed is empty
                 System.out.println("Cell is filled!");
             } else if (!board.guess(rowGuess - 1, colGuess - 1, numGuess)) { //if the guess is incorrect
-                System.out.println("Incorrect guess");
+                System.out.println("\nIncorrect guess\n");
                 incorrect++;
 
                 if (incorrect == 3) { //end the game if the player has 3 incorrect guesses
@@ -113,7 +113,7 @@ public class CommandLineUI {
                 }
 
             } else {
-                System.out.println("Correct guess");
+                System.out.println("\nCorrect guess\n");
             }
 
             if (board.isSolved()) { //ends game if the board is full
