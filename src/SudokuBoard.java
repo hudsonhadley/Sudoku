@@ -152,6 +152,7 @@ public class SudokuBoard {
     public ArrayList<Integer> getRow(int numRow) {
         return new ArrayList<>(cells.get(numRow));
     }
+
     /**
      * Clears the current board, setting each cell to be 0.
      */
