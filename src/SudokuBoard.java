@@ -150,7 +150,7 @@ public class SudokuBoard {
      * @return the list of numbers in the row
      */
     public ArrayList<Integer> getRow(int numRow) {
-        return cells.get(numRow);
+        return new ArrayList<>(cells.get(numRow));
     }
     /**
      * Clears the current board, setting each cell to be 0.
