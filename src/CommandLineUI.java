@@ -123,7 +123,7 @@ public class CommandLineUI {
 
         long end = System.currentTimeMillis();
 
-        System.out.println(board.toString());
+        System.out.println(board);
         System.out.printf("Time: %s\n", millisToClock(end - start));
         System.out.println("Incorrect guesses: " + incorrect);
     }
