@@ -195,12 +195,15 @@ public class SudokuBoard {
      * @param numbersLeft the amount of numbers we want left on the board
      * @throws IllegalStateException if the board is not full or invalid
      * @throws IllegalArgumentException if the numbers left is too small and a unique puzzle cannot be created
+     * or if the numbers left is greater than or equal to 81 (i.e. the user wants to generate a filled board)
      */
     public SudokuBoard generatePuzzle(int numbersLeft) {
         if (!isFull())
             throw new IllegalStateException("Board has not been generated");
         else if (!isValid())
             throw new IllegalStateException("Board is invalid");
+        else if (numbersLeft >= 81)
+            throw new IllegalArgumentException("Numbers left must be less than 81");
 
         // We will remove from the copy as to not lose the original (the solution)
         SudokuBoard puzzleBoard = new SudokuBoard(this);
