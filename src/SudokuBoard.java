@@ -248,8 +248,8 @@ public class SudokuBoard {
                 lineToRemove.offer(new Coordinate(c.getCol(), c.getRow()));
         }
 
-        // We want to have 30 numbers left on the board (note that if this is too small, numbers will be removed until
-        // no other number can be removed) --> the number of hints left will be more than N
+        // We want to have a certain amount of numbers left on the board (note that if this is too small,
+        // an exception will be thrown)
         int numLeft = 81;
 
         // We want to stop once we have N numbers left on the board
