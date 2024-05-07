@@ -131,6 +131,9 @@ public class SudokuPuzzle {
         return puzzle.toString();
     }
 
+    /**
+     * @return a String representation of the solution
+     */
     public String solveToString() {
         return solution.toString();
     }
