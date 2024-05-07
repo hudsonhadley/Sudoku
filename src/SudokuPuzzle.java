@@ -50,6 +50,19 @@ public class SudokuPuzzle {
      * solution do not match
      */
     public SudokuPuzzle(SudokuBoard puzzle, SudokuBoard solution) throws IllegalArgumentException {
+        // Verify the solution and puzzle is valid and the solution is full
+        if (!solution.isFull() || !solution.isValid() || !puzzle.isValid())
+            throw new IllegalArgumentException("Solution is not full or solution is invalid");
+
+        // Verify that the solution and puzzle match if they have an entry
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                // If an entry differs and the puzzle entry is not just empty, throw an exception
+                if (solution.getCell(i, j) != puzzle.getCell(i, j) && puzzle.getCell(i, j) != 0)
+                    throw new IllegalArgumentException("Puzzle and solution do not match");
+            }
+        }
+
         this.puzzle = new SudokuBoard(puzzle);
         this.solution = new SudokuBoard(solution);
     }
