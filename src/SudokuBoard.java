@@ -112,7 +112,7 @@ public class SudokuBoard {
      * @return the cell number at the row and column in the board
      * @throws IndexOutOfBoundsException if row or col is not 0-8
      */
-    public int getCell(int row, int col) {
+    public int getCell(int row, int col) throws IndexOutOfBoundsException {
         if (row < 0 || 8 < row || col < 0 || 8 < col)
             throw new IndexOutOfBoundsException("Invalid row or col");
         return cells.get(row).get(col);
@@ -123,7 +123,7 @@ public class SudokuBoard {
      * @return the cell number at the coordinate in the board
      * @throws IndexOutOfBoundsException if the coordinate is out of bounds
      */
-    public int getCell(Coordinate coord) {
+    public int getCell(Coordinate coord) throws IndexOutOfBoundsException {
         return getCell(coord.getRow(), coord.getCol());
     }
 
@@ -134,7 +134,12 @@ public class SudokuBoard {
      * @throws IndexOutOfBoundsException if row or col is out of bounds
      * @throws IllegalArgumentException if cell is not 0-9
      */
-    public void setCell(int row, int col, int cell) {
+    public void setCell(int row, int col, int cell) throws IndexOutOfBoundsException, IllegalArgumentException {
+        if (row < 0 || row > 8 || col < 0 || col > 8)
+            throw new IndexOutOfBoundsException("Row or col out of bounds");
+        else if (cell < 0 || cell > 9)
+            throw new IllegalArgumentException("Cell number must be between 0 and 9");
+
         cells.get(row).set(col, cell);
     }
 
@@ -144,15 +149,19 @@ public class SudokuBoard {
      * @throws IndexOutOfBoundsException if the coordinate is out of bounds
      * @throws IllegalArgumentException if cell is not 0-9
      */
-    public void setCell(Coordinate coord, int cell) {
+    public void setCell(Coordinate coord, int cell) throws IndexOutOfBoundsException, IllegalArgumentException {
         setCell(coord.getRow(), coord.getCol(), cell);
     }
 
     /**
      * @param numRow the index of the row to be returned
      * @return the list of numbers in the row
+     * @throws IndexOutOfBoundsException if numRow is not 0-8
      */
     public ArrayList<Integer> getRow(int numRow) {
+        if (numRow < 0 || numRow > 8)
+            throw new IndexOutOfBoundsException("numRow must be between 0 and 8");
+
         return new ArrayList<>(cells.get(numRow));
     }
 
@@ -420,8 +429,12 @@ public class SudokuBoard {
      * @param row the row of the cell we want to check
      * @param col the column of the cell we want to check
      * @return if the cell at the row and column specified creates any contradictions
+     * @throws IndexOutOfBoundsException if the row or col is out of bounds
      */
-    private boolean isValidCell(int row, int col) {
+    private boolean isValidCell(int row, int col) throws IndexOutOfBoundsException {
+        if (row < 0 || row > 8 || col < 0 || col > 8)
+            throw new IndexOutOfBoundsException("row or col is out of bounds");
+
         // For a cell to be valid, it must either be empty or have no repetitions in column, row, or box
         return getCell(row, col) == 0 || (isValidRow(row, col) && isValidCol(row, col) && isValidBox(row, col));
     }
@@ -429,8 +442,9 @@ public class SudokuBoard {
     /**
      * @param coord the coordinate of the cell we want to check
      * @return if the cell at the specified coordinate creates any contradictions
+     * @throws IndexOutOfBoundsException if the coordinate is out of bounds
      */
-    private boolean isValidCell(Coordinate coord) {
+    private boolean isValidCell(Coordinate coord) throws IndexOutOfBoundsException {
         return isValidCell(coord.getRow(), coord.getCol());
     }
 
@@ -438,8 +452,12 @@ public class SudokuBoard {
      * @param row the row of the cell we want to check
      * @param col the column of the cell we want to check
      * @return if the cell at the specified coordinate creates any contradictions in its row
+     * @throws IndexOutOfBoundsException if the row or col is out of bounds
      */
-    private boolean isValidRow(int row, int col) {
+    private boolean isValidRow(int row, int col) throws IndexOutOfBoundsException {
+        if (row < 0 || row > 8 || col < 0 || col > 8)
+            throw new IndexOutOfBoundsException("row or col is out of bounds");
+
         int cellNum = getCell(row, col);
 
         // Go through all the columns
@@ -454,8 +472,9 @@ public class SudokuBoard {
     /**
      * @param coord the coordinate of the cell we want to check
      * @return if the cell at the specified coordinate creates any contradictions in its row
+     * @throws IndexOutOfBoundsException if the coordinate is out of bounds
      */
-    private boolean isValidRow(Coordinate coord) {
+    private boolean isValidRow(Coordinate coord) throws IndexOutOfBoundsException {
         return isValidRow(coord.getRow(), coord.getCol());
     }
 
@@ -463,8 +482,12 @@ public class SudokuBoard {
      * @param row the row of the cell we want to check
      * @param col the column of the cell we want to check
      * @return if the cell at the specified coordinate creates any contradictions in its column
+     * @throws IndexOutOfBoundsException if the row or col is out of bounds
      */
-    private boolean isValidCol(int row, int col) {
+    private boolean isValidCol(int row, int col) throws IndexOutOfBoundsException {
+        if (row < 0 || row > 8 || col < 0 || col > 8)
+            throw new IndexOutOfBoundsException("row or col is out of bounds");
+
         int cellNum = getCell(row, col);
 
         // Go through all the rows
@@ -479,8 +502,9 @@ public class SudokuBoard {
     /**
      * @param coord the coordinate of the cell we want to check
      * @return if the cell at the specified coordinate creates any contradictions in its column
+     * @throws IndexOutOfBoundsException if the coordinate is out of bounds
      */
-    private boolean isValidCol(Coordinate coord) {
+    private boolean isValidCol(Coordinate coord) throws IndexOutOfBoundsException {
         return isValidCol(coord.getRow(), coord.getCol());
     }
 
@@ -488,8 +512,12 @@ public class SudokuBoard {
      * @param row the row of the cell we want to check
      * @param col the column of the cell we want to check
      * @return if the cell at the specified coordinate creates any contradictions in its box
+     * @throws IndexOutOfBoundsException if the row or col is out of bounds
      */
-    private boolean isValidBox(int row, int col) {
+    private boolean isValidBox(int row, int col) throws IndexOutOfBoundsException {
+        if (row < 0 || row > 8 || col < 0 || col > 8)
+            throw new IndexOutOfBoundsException("row or col is out of bounds");
+
         int cellNum = getCell(row, col);
 
         int boxRow = row / 3; // the box row will be 0 - 2
@@ -510,6 +538,7 @@ public class SudokuBoard {
     /**
      * @param coord the coordinate of the cell we want to check
      * @return if the cell at the specified coordinate creates any contradictions in its box
+     * @throws IndexOutOfBoundsException if the coordinate is out of bounds
      */
     private boolean isValidBox(Coordinate coord) {
         return isValidBox(coord.getRow(), coord.getCol());
@@ -519,10 +548,12 @@ public class SudokuBoard {
      * Flips a board clockwise by 90 degrees.
      */
     public void flip() {
+        // This will be our reference board
         SudokuBoard boardCopy = new SudokuBoard(this);
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
+                // We will move the element at (8 - j, i) to (i, j) --> makes the board flip by 90 degrees clockwise
                 setCell(i, j, boardCopy.getCell(8 - j, i));
             }
         }
@@ -532,12 +563,15 @@ public class SudokuBoard {
      * Mirrors a board along the horizontal line such that the top and the bottom mirror each other.
      */
     public void mirror() {
+        // This will be our reference board
         SudokuBoard boardCopy = new SudokuBoard(this);
-        Deque< ArrayList<Integer> > rowStack = new ArrayDeque<>();
+        Deque<ArrayList<Integer>> rowStack = new ArrayDeque<>();
 
+        // Push all the rows onto the stack from the boardCopy
         for (int i = 0; i < 9; i++)
             rowStack.push(boardCopy.getRow(i));
 
+        // Pop all the rows back onto the board
         for (int i = 0; i < 9; i++)
             cells.set(i, rowStack.pop());
     }
