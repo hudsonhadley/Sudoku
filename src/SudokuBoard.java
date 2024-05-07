@@ -541,7 +541,10 @@ public class SudokuBoard {
     }
 
     /**
-     * @return a list of numbers that have not all been placed
+     * Gets a list of the numbers 1-9. Note that numbers that have been solved (there are nine of them in the puzzle)
+     * will be represented with a -1. So, for a puzzle which has solved all the 2, 4, and 9s, this method would
+     * return {1, -1, 3, -1, 5, 6, 7, 8, -1}
+     * @return a list of numbers that have not all been placed with -1 designated a solved number
      */
     public ArrayList<Integer> getUnsolvedNums() {
         ArrayList<Integer> unsolved = new ArrayList<>();
