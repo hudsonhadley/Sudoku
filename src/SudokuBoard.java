@@ -33,7 +33,10 @@ public class SudokuBoard {
     }
 
     /**
-     * A constructor which initializes a sudoku board from a string representation of a board.
+     * A constructor which initializes a sudoku board from a string representation of a board. This constructor is
+     * mostly used for debugging purposes and inputting boards known to be full/empty or valid/invalid to test methods.
+     * (Note that this constructor does not take in a String of SudokuBoard.toString() format. If one wishes to make
+     * a board from another board, one should use the copy constructor.)
      * @param board a String representation of the board with columns separated with spaces and rows separated
      *              with newlines
      * @throws IllegalArgumentException if the board is improperly formatted
