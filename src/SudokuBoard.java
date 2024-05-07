@@ -189,8 +189,7 @@ public class SudokuBoard {
 
     /**
      * Generates a partially filled sudoku board from a fully filled board. This algorithm ensures that there is only
-     * one solution for the puzzle generated. Note that if the board is not filled, an entirely new board will be
-     * created and a puzzle will be generated from it.
+     * one solution for the puzzle generated. Note that if the board is not filled, an exception will be thrown.
      * @return a sudoku puzzle with one solution
      * @param numbersLeft the amount of numbers we want left on the board
      * @throws IllegalStateException if the board is not full or invalid
