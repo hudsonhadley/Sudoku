@@ -89,7 +89,7 @@ public class CommandLineUI {
         int incorrect = 0; //how many incorrect guesses the user has made
         Scanner scan = new Scanner(System.in);
 
-        int[] levels = new int[]{35, 30, 36, 22}; // The numbers left corresponding to each difficulty
+        int[] levels = new int[]{35, 30, 26, 22}; // The numbers left corresponding to each difficulty
         int difficulty = getNumber(scan,
                 "Enter difficulty level (1 = easy, 2 = medium, 3 = hard, 4 = impossible): ", 1, 4);
 
